@@ -1,0 +1,9 @@
+.done {
+    text-decoration: line-through;
+    color: #6a696b;
+    font-style: italic;
+}
+
+.margin {
+    margin: 10px;
+}
