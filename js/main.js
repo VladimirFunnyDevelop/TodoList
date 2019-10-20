@@ -2,37 +2,75 @@
 
 let idCounter = 0;
 
-$("#add").on("click", function () {
+$("#formAdd").submit(function(){
 
-    $( "#todoList" ).append(
-        `<div id="divdel${idCounter}">` +
-        `${idCounter + 1}` +
-        `<input type="checkbox" id="checkbox${idCounter}" class="margin">` +
-        `<span id="div${idCounter}" class="margin">` +
-        $("#input").val() +
-        "</span>" +
-        `<button id="delete${idCounter}"  class="margin">Удалить</button>` +
-        `<button id="edit${idCounter}"  class="margin">Редактировать</button>` +
-        "</div>"
-);
+    function TodoList() {
 
-    let idCounter1 = idCounter;
+        let idCounterRight = idCounter;
 
-    $( `#delete${idCounter}` ).on("click", function () {
+        $( "#todoList" ).append(
+            TaskAdding(idCounterRight)
+        );
 
-        $( `#divdel${idCounter1}` ).remove();
-    });
+        document.getElementById("input").value = "";
 
-    $( `#checkbox${idCounter}` ).on("click", function () {
+        $( `#delete${idCounter}` ).on("click", function () {
 
-        $( `#div${idCounter1}` ).toggleClass("done");
-    });
+            $(`#divdel${idCounterRight}`).remove();
+        });
 
-    $( `#edit${idCounter}` ).on("click", function () {
+        $( `#checkbox${idCounter}` ).on("click", function () {
 
-        $( `#div${idCounter1}` ).text(prompt("Введите исправленные данные",
-        $( `#div${idCounter1}` ).text()));
-    });
+            $( `#div${idCounterRight}` ).toggleClass("done");
+        });
 
-    idCounter++;
+        $( `#edit${idCounter}` ).on("click", function () {
+
+            let sp1 = document.createElement("input");
+            sp1.setAttribute("id", `newInput${idCounterRight}`);
+            let sp2 = document.getElementById( `div${idCounterRight}`);
+            let parentDiv = sp2.parentNode;
+            parentDiv.replaceChild(sp1, sp2);
+
+            $( `<button id="editSave${idCounterRight}"  class="margin">Сохранить</button>` ).appendTo($(`#divdel${idCounterRight}`));
+            $(`#edit${idCounterRight}`).remove();
+
+            $( `#editSave${idCounterRight}` ).on("click", function () {
+
+                let sp1 = document.createElement(`span`);
+                sp1.setAttribute("id", `div${idCounterRight}`);
+                sp1.setAttribute("class", `margin`);
+                var sp1_content = document.createTextNode(String($(`#newInput${idCounterRight}`).val()));
+                sp1.appendChild(sp1_content);
+                let sp2 = document.getElementById( `newInput${idCounterRight}`);
+                let parentDiv = sp2.parentNode;
+                parentDiv.replaceChild(sp1, sp2);
+
+                console.log("OKAY");
+                $( `<button id="edit${idCounterRight}"  class="margin">Редактировать</button>` ).appendTo($(`#divdel${idCounterRight}`));
+                $(`#editSave${idCounterRight}`).remove();
+            });
+            
+        });
+
+
+
+        idCounter++;
+
+    }
+
+    TodoList();
+
+    function TaskAdding(idCounter) {
+        return String(`<div id="divdel${idCounter}">` +
+            `${idCounter + 1}` +
+            `<input type="checkbox" id="checkbox${idCounter}" class="margin">` +
+            `<span id="div${idCounter}" class="margin">` +
+            $("#input").val() +
+            "</span>" +
+            `<button id="delete${idCounter}"  class="margin">Удалить</button>` +
+            `<button id="edit${idCounter}"  class="margin">Редактировать</button>` +
+            "</div>");
+    }
+
 });
