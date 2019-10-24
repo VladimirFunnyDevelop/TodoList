@@ -53,9 +53,8 @@ $("#formAdd").submit(function(){
             
         });
 
-
-
         idCounter++;
+
 
     }
 
@@ -72,5 +71,8 @@ $("#formAdd").submit(function(){
             `<button id="edit${idCounter}"  class="margin">Редактировать</button>` +
             "</div>");
     }
+
+    return false;
+
 
 });
